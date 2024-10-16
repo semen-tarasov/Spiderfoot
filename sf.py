@@ -497,6 +497,7 @@ def start_web_server(sfWebUiConfig: dict, sfConfig: dict, loggingQueue=None) -> 
     secrets = dict()
     passwd_file = SpiderFootHelpers.dataPath() + '/passwd'
     if os.path.isfile(passwd_file):
+        log.warning(f"Password file found - {passwd_file}")
         if not os.access(passwd_file, os.R_OK):
             log.error("Could not read passwd file. Permission denied.")
             sys.exit(-1)
@@ -520,6 +521,8 @@ def start_web_server(sfWebUiConfig: dict, sfConfig: dict, loggingQueue=None) -> 
                 sys.exit(-1)
 
             secrets[u] = p
+    else:
+        log.warning(f"Password file - {passwd_file} - NOT FOUND!")
 
     if secrets:
         log.info("Enabling authentication based on supplied passwd file.")
@@ -531,7 +534,7 @@ def start_web_server(sfWebUiConfig: dict, sfConfig: dict, loggingQueue=None) -> 
         }
     else:
         warn_msg = "\n********************************************************************\n"
-        warn_msg += "Warning: passwd file contains no passwords. Authentication disabled.\n"
+        warn_msg += f"Warning: passwd file ({passwd_file}) contains no passwords. Authentication disabled.\n"
         warn_msg += "Please consider adding authentication to protect this instance!\n"
         warn_msg += "Refer to https://www.spiderfoot.net/documentation/#security.\n"
         warn_msg += "********************************************************************\n"
