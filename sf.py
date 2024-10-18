@@ -495,7 +495,7 @@ def start_web_server(sfWebUiConfig: dict, sfConfig: dict, loggingQueue=None) -> 
     }
 
     secrets = dict()
-    passwd_file = SpiderFootHelpers.dataPath() + '/secrets/passwd'
+    passwd_file = SpiderFootHelpers.dataPath() + '/passwd'
     if os.path.isfile(passwd_file):
         log.warning(f"Password file found - {passwd_file}")
         if not os.access(passwd_file, os.R_OK):
